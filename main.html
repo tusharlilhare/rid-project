@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e-book</title>
+    <link rel="stylesheet" href="nevbar.css">
+   
+</head>
+<body>
+    <nav id="dataTable">
+        <!-- <a href="?page=RID">html</a> -->
+            
+        <a href="css.html">css</a>
+        <a href="js.html">javascript</a>
+        <a href="nodejs.html">node.js</a>
+        <a href="python.html">python</a>
+        <a href="xl.html">XL</a>
+        <a href="sql.html">sql</a>
+        <a href="php.html">php</a>
+    </nav><br><br>
+
+   
+
+ 
+<!-- <div class="main-img">
+    <img src="ridmain-img.jpeg" alt="">
+</div> -->
+
+    
+    <div class="content" id="content">
+        <h2>Welcome</h2>
+        <h2>Searchable data</h2>
+        <input type="text" id="searchInput" placeholder="Search for names...">
+        
+    </div>
+<script>
+    function loadContent(page) {
+        fetch(page)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(data => {
+                document.getElementById('content').innerHTML = data;
+            })
+            .catch(error => {
+                document.getElementById('content').innerHTML = '<p>Error loading content.</p>';
+                console.error('Error fetching content:', error);
+            });
+    }
+
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    // Page reload ke baad ya initial load pe query parameter ke basis par content fetch karna
+    document.addEventListener('DOMContentLoaded', () => {
+        const page = getQueryParam('page');
+        if (page) {
+            loadContent(`${page}.html`);
+        }
+    });
+
+   
+    document.getElementById("searchInput").addEventListener("keyup", function() {
+      let filter = this.value.toLowerCase();
+      let rows = document.querySelectorAll("#dataTable tbody tr");
+
+      rows.forEach(row => {
+        let match = row.textContent.toLowerCase().includes(filter);
+        row.style.display = match ? "" : "none";
+      });
+    });
+
+</script>
+ 
+     
+</body>
+</html>
